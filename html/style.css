@@ -1,0 +1,741 @@
+/* =========================================== */
+/* ====== Paleta de colores (Variables) ====== */
+/* =========================================== */
+:root {
+    --primary-color: rgba(255, 255, 255, 1);
+    --secondary-color: rgba(255, 255, 255, 0.8);
+    --bg-color: rgba(0, 0, 0, 0.9);
+    --hover-color: rgba(255, 255, 255, 0.2);
+    --border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ======================================= */
+/* ====== Estilos de base (General) ====== */
+/* ======================================= */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    border: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    overflow: hidden;
+    font-weight: 900;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 2px;
+}
+
+::-webkit-scrollbar {
+    width: 1px;
+    height: 1px;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: transparent;
+    line-height: 1;
+}
+
+.mensaje-wrapper {
+    position: absolute;
+    width: 415px;
+    bottom: 4.5%;
+    left: 0;
+    z-index: 1000;
+}
+
+.mensaje {
+    display: none;
+    flex-direction: column;
+    background: var(--bg-color);
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    color: var(--primary-color);
+    font-size: 12px;
+    padding: 0;
+    overflow: hidden;
+}
+
+.mensaje-titulo {
+    background: var(--bg-color);
+    padding: 5px;
+    border-bottom: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.mensaje-titulo h2 {
+    margin: 0;
+}
+
+.mensaje-contenido {
+    padding: 5px 10px;
+    display: block;
+    color: var(--secondary-color);
+    line-height: 1;
+}
+
+.mensaje p {
+    margin: 0;
+    font-weight: normal;
+}
+
+.mensaje strong {
+    color: var(--primary-color);
+    font-weight: bolder;
+    text-shadow: 0 0 2px var(--primary-color);
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+#action-indicators {
+    display: none;
+    gap: 5px;
+    justify-content: flex-end;
+    margin-bottom: 960px;
+    width: 100%;
+    align-items: center;
+}
+
+.indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 5px 10px;
+    background: var(--bg-color);
+    border-radius: 3px;
+    color: var(--primary-color);
+    font-size: 12px;
+    border: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.indicator svg {
+    margin: 0;
+}
+
+.indicator span {
+    display: flex;
+    align-items: center;
+    font-weight: bolder;
+}
+
+/* =========================================== */
+/* ====== Contenedor principal del menú ====== */
+/* =========================================== */
+.clothing-menu-container {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: absolute;
+    gap: 5px;
+    background: var(--bg-color);
+    border-radius: 5px;
+    color: var(--primary-color);
+    padding: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--border-color);
+    height: 85vh;
+    right: -26vw;
+    width: 26vw;
+}
+
+/* ==================================== */
+/* ====== Pestañas de categorías ====== */
+/* ==================================== */
+.clothing-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    gap: 5px;
+}
+
+.clothing-menu-header-btn {
+    display: flex;
+    padding: 10px 5px;
+    border-radius: 3px;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    transition: background 0.3s ease;
+    cursor: pointer;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: center;
+}
+
+.clothing-menu-header-btn:hover {
+    background: var(--hover-color);
+}
+
+.selected {
+    background: var(--hover-color);
+}
+
+.clothing-menu-header-btn>p {
+    text-transform: uppercase;
+    font-size: 1vh;
+    letter-spacing: 0.1vh;
+    margin-bottom: -10px;
+}
+
+/* ================================ */
+/* ====== Botones de cámaras ====== */
+/* ================================ */
+.clothing-menu-header-cameras {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 5px;
+    gap: 5px;
+}
+
+.clothing-menu-header-camera-btn {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    border-radius: 3px;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    transition: background 0.3s ease;
+    cursor: pointer;
+}
+
+.clothing-menu-header-camera-btn:hover {
+    background: var(--hover-color);
+}
+
+.selected-cam {
+    background: var(--hover-color);
+}
+
+.clothing-menu-header-camera-btn>i {
+    font-size: 1.1vh;
+}
+
+/* =========================================== */
+/* ====== Contenedores de los apartados ====== */
+/* =========================================== */
+.clothing-menu-character-container,
+.clothing-menu-hair-container,
+.clothing-menu-clothing-container,
+.clothing-menu-accessoires-container,
+.clothing-menu-myOutfits-container {
+    display: none;
+    position: absolute;
+    margin: 0 auto;
+    left: 0.1vh;
+    right: 0;
+    top: 10vh;
+    height: 69vh;
+    width: 92%;
+    overflow-y: scroll !important;
+}
+
+.clothing-menu-option {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+    position: relative;
+    padding: 10px;
+    border-radius: 3px;
+    border: 1px solid var(--border-color);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.clothing-menu-option-header {
+    flex-grow: 1;
+    text-align: center;
+    color: #ededed;
+    font-size: 1.9vh;
+    letter-spacing: 0.1vh;
+    text-transform: uppercase;
+}
+
+.clothing-menu-myOutfits-container .clothing-menu-option-header,
+.clothing-menu-roomOutfits-container .clothing-menu-option-header {
+    text-transform: capitalize;
+    font-size: 1.5vh;
+    letter-spacing: 0.15vh;
+}
+
+.header-line {
+    color: white;
+    width: 90%;
+    height: 1px;
+    background: var(--border-color);
+    margin: 5px auto 0px auto;
+}
+
+.clothing-menu-option-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+    margin-top: 15px;
+}
+
+.clothing-menu-option-item-header {
+    color: grey;
+    padding: 0.8vh;
+    width: 100%;
+    margin-top: -0.5em;
+    font-size: 1.3vh;
+    letter-spacing: 0.1vh;
+    text-transform: uppercase;
+}
+
+.clothing-menu-option-control {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.clothing-menu-option-control-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.clothing-menu-option-item-left,
+.clothing-menu-option-item-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    border-radius: 3px;
+    width: 80px;
+    height: 40px;
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    transition: background 0.3s ease;
+}
+
+.clothing-menu-option-item-left:hover,
+.clothing-menu-option-item-right:hover {
+    background: var(--hover-color);
+}
+
+
+input[type="number"] {
+    width: 200px;
+    height: 40px;
+    text-align: center;
+    margin: 0;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--primary-color);
+    border-radius: 3px;
+    padding: 5px;
+    outline: none;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+/* ============================================= */
+/* ====== Estilos del Slider (modificado) ====== */
+/* ============================================= */
+.slider {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    padding: 5px;
+    border: 1px solid var(--border-color);
+    color: var(--primary-color);
+    border-radius: 3px;
+    outline: none;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.facemix-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8em;
+    color: var(--secondary-color);
+    margin-top: 45px;
+}
+
+.facemix-label-left {
+    font-size: xx-small;
+    position: absolute;
+    text-transform: uppercase;
+    letter-spacing: 0.05vh;
+    color: white;
+    left: 230px;
+}
+
+.facemix-label-right {
+    font-size: xx-small;
+    position: absolute;
+    text-transform: uppercase;
+    letter-spacing: 0.05vh;
+    color: white;
+    right: 20px;
+}
+
+/* ======================================== */
+/* ====== Botones de acción del menú ====== */
+/* ======================================== */
+.clothing-menu-option-buttons {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    bottom: 15px;
+    width: 93%;
+    gap: 5px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
+}
+
+.clothing-menu-option-button {
+    flex: 1;
+    text-align: center;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    padding: 10px 5px;
+    border-radius: 3px;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    transition: background 0.3s ease;
+    cursor: pointer;
+}
+
+.clothing-menu-option-button:hover {
+    background: var(--hover-color);
+}
+
+.clothing-menu-save-outfit-name {
+    display: none;
+    position: fixed;
+    padding: 20px;
+    color: white;
+    background: var(--bg-color);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    transition: all 0.2s ease;
+    font-family: 'Arial', sans-serif;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+    width: 26%;
+    max-height: 80vh;
+    overflow: hidden;
+    transform-origin: right center;
+    box-sizing: border-box;
+}
+
+.clothing-menu-save-outfit-name-header {
+    padding: 0 15px 0 15px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+.clothing-menu-save-outfit-name-header>p {
+    font-size: 1.8vh;
+    letter-spacing: 0.1vh;
+    text-transform: uppercase;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.header-line {
+    color: white;
+    width: 90%;
+    height: 1px;
+    background: var(--border-color);
+    margin: 0 auto 15px auto;
+}
+
+#outfit-name {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 8px;
+    color: var(--primary-color);
+    background: rgba(255, 255, 255, 0.05);
+    outline: none;
+    border: none;
+    font-size: 14px;
+    font-weight: normal;
+    border-radius: 3px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    width: 100%;
+    min-height: 40px;
+}
+
+#outfit-name:hover {
+    background: var(--hover-color);
+    transform: translateX(-3px);
+}
+
+#outfit-name:focus {
+    background: var(--hover-color);
+    transform: translateX(-3px);
+    outline: none;
+    border: none;
+}
+
+.clothing-menu-save-outfit-name-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 5px;
+    gap: 1vh;
+    padding: 8px;
+}
+
+.clothing-menu-save-outfit-name-button {
+    flex: 1;
+    text-align: center;
+    padding: 1vh;
+    border-radius: 0.4vh;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    height: 40px;
+    color: var(--primary-color);
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    border-radius: 3px;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.08);
+    font-weight: bold;
+}
+
+.clothing-menu-save-outfit-name-button:hover {
+    background: var(--hover-color);
+}
+
+.clothing-menu-save-outfit-name-button>p {
+    font-size: 16px;
+    letter-spacing: 0.1vh;
+    text-transform: uppercase;
+    color: var(--primary-color);
+}
+
+.clothing-menu-save-outfit-name-button i {
+    color: var(--primary-color);
+    font-size: 16px;
+}
+
+.change-camera-buttons {
+    display: none;
+    position: absolute;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    height: 7vh;
+    width: 20vh;
+}
+
+.change-camera-button {
+    position: relative;
+    height: 80%;
+    width: 50%;
+    float: left;
+    background-color: rgb(23 23 23 / 80%);
+    text-align: center;
+    transition: 0.08s;
+}
+
+.change-camera-button:hover {
+    background: #dc143c;
+    cursor: pointer;
+}
+
+.change-camera-button>i {
+    font-size: 3vh;
+    color: #ededed;
+    line-height: 5.5vh;
+}
+
+.change-camera-footer {
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    width: 100%;
+    height: 20%;
+    background: #dc143c;
+    line-height: 1.5vh;
+    border-bottom-left-radius: .8vh;
+    border-bottom-right-radius: .8vh;
+}
+
+.change-camera-footer>p {
+    font-weight: bold;
+    font-size: 0.8vh;
+    text-transform: uppercase;
+    color: #ededed;
+    letter-spacing: 0.1vh;
+}
+
+.clothing-menu-outfit-option-button {
+    position: relative;
+    text-align: center;
+    line-height: 4.8vh;
+    width: 50%;
+    height: 30px;
+    margin: 0 auto;
+    top: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 3px 3px 0 0;
+    transition: background 0.3s linear, width 0.3s ease;
+    cursor: pointer;
+    overflow: hidden;
+    white-space: nowrap;
+    display: flex;
+    background: transparent;
+    justify-content: center;
+    align-items: center;
+}
+
+.clothing-menu-outfit-option-button:hover {
+    width: 80%;
+    background: var(--hover-color);
+}
+
+.clothing-menu-outfit-option-button>p {
+    color: #ededed;
+    text-transform: uppercase;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 0.1vh;
+    font-size: 1vh;
+    transition: opacity 0.3s ease;
+    opacity: 1;
+}
+
+.clothing-menu-outfit-option-button:hover>p {
+    opacity: 0;
+}
+
+.clothing-menu-outfit-option-button::after {
+    content: "SELECCIONAR";
+    color: white;
+    font-size: 1.3vh;
+    letter-spacing: 0.1vh;
+    text-transform: uppercase;
+    font-weight: bold;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s ease;
+}
+
+.clothing-menu-outfit-option-button:hover::after {
+    opacity: 1;
+}
+
+/* Mantengo los estilos que ya tenías para el contenedor */
+.clothing-menu-roomOutfits-container {
+    display: none;
+    position: absolute;
+    margin: 0 auto;
+    left: 0.3vh;
+    right: 0;
+    top: 9vh;
+    height: 87vh;
+    width: 92%;
+    overflow-y: scroll !important;
+}
+
+.clothing-menu-myOutfit-buttons {
+    display: flex;
+    gap: 1vh;
+}
+
+.my-outfits-option {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-grow: 1;
+    text-transform: capitalize;
+
+}
+
+.clothing-menu-myOutfit-option-button,
+.clothing-menu-myOutfit-option-button-remove {
+    width: 4vh;
+    height: 4vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    padding: 10px 5px;
+    transition: background 0.3s ease;
+    cursor: pointer;
+}
+
+.clothing-menu-myOutfit-option-button:hover,
+.clothing-menu-myOutfit-option-button-remove:hover {
+    background: var(--hover-color);
+}
+
+.clothing-menu-myOutfit-option-button>p,
+.clothing-menu-myOutfit-option-button-remove>p {
+    font-size: 16px;
+    letter-spacing: 0.1vh;
+    text-transform: none;
+    color: var(--primary-color);
+}
+
+.clothing-menu-myOutfit-option-button i,
+.clothing-menu-myOutfit-option-button-remove i {
+    color: var(--primary-color);
+    font-size: 16px;
+}

@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/610ae1a27e.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
+    <link rel="stylesheet" href="./style.css">
+    <title>DP-Clothing</title>
+</head>
+
+<body>
+    <div class="mensaje-wrapper">
+        <div class="mensaje">
+            <div class="mensaje-titulo">
+                <h2>ATENCIÓN</h2>
+            </div>
+            <div class="mensaje-contenido">
+                <p>Si no logras ver correctamente tu personaje, confirma así tal cual, luego haz estos pasos:
+                    <strong>ESC > AJUSTES > GRÁFICOS</strong>.<br><br>
+                    Una vez dentro de gráficos, busca la opción <strong>'Extended Texture Budget'</strong>, aumentala y
+                    disminuyela dejandola a como la tenias...<br><br>
+                    Despues <strong>'REINICIA EL JUEGO'</strong> cerrandolo completamente y volviendo a entrar. Con eso
+                    se soluciona la mayoria de problemas de texturas.<br><br>
+                    Si el problema persiste, o no te deja volver a usar el menú de creación de personaje, contacta por
+                    <strong>/REPORT</strong> para contactar con un administrador.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div id="action-indicators">
+            <div class="indicator">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
+                    <g fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <path stroke-dasharray="20" stroke-dashoffset="20" d="M21 12h-17.5">
+                            <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.68s" values="20;0" />
+                        </path>
+                        <path stroke-dasharray="12" stroke-dashoffset="12" d="M3 12l7 7M3 12l7 -7">
+                            <animate fill="freeze" attributeName="stroke-dashoffset" begin="0.68s" dur="0.68s"
+                                values="12;0" />
+                        </path>
+                    </g>
+                </svg>
+                <span>Rotar Izquierda</span>
+            </div>
+            <div class="indicator">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
+                    <g fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <path stroke-dasharray="20" stroke-dashoffset="20" d="M3 12h17.5">
+                            <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.68s" values="20;0" />
+                        </path>
+                        <path stroke-dasharray="12" stroke-dashoffset="12" d="M21 12l-7 7M21 12l-7 -7">
+                            <animate fill="freeze" attributeName="stroke-dashoffset" begin="0.68s" dur="0.68s"
+                                values="12;0" />
+                        </path>
+                    </g>
+                </svg>
+                <span>Rotar Derecha</span>
+            </div>
+        </div>
+        <div class="change-camera-buttons"></div>
+        <div class="clothing-menu-container">
+            <div class="clothing-menu-header"></div>
+            <div class="clothing-menu-header-cameras">
+                <div class="clothing-menu-header-camera-btn" data-value="1">
+                    <i class="fa-solid fa-user-alt"></i>
+                </div>
+                <div class="clothing-menu-header-camera-btn" data-value="2">
+                    <i class="fa-solid fa-tshirt"></i>
+                </div>
+                <div class="clothing-menu-header-camera-btn" data-value="3">
+                    <i class="fa-solid fa-socks"></i>
+                </div>
+            </div>
+            <div class="clothing-menu-character-container">
+                <div class="clothing-menu-option" data-type="model" id="player_model">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="player_model">Modelo del Jugador</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header">
+                            <p data-tkey="model">Modelo:</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" id="model-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i></div>
+                        <input type="number" data-type="item" value="1">
+                        <div class="clothing-menu-option-item-right" id="model-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" id="current-model">
+                            <p>mp_m_freemode_01</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="face" id="face">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="mother">Madre</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="type">Tipo</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item">
+                            <i class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item">
+                            <i class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="texture-header">
+                            <p data-tkey="skin_color">Color de Piel</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="texture"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="texture" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="texture"><i
+                                class="fa-solid fa-angle-right"></i></div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="face2" id="face2">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="father">Padre</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="type">Tipo</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="texture-header">
+                            <p data-tkey="skin_color">Color de Piel</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="texture"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="texture" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="texture"><i
+                                class="fa-solid fa-angle-right"></i></div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="facemix" id="facemix">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="parent_mixer">Mezcla de Padres</p>
+                        <div class="header-line"></div>
+                    </div>
+
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header">
+                            <p data-tkey="shape_mix">Mezcla de Forma</p>
+                        </div>
+                        <input data-type="shapeMix" class="clothing-menu-option-item-slider slider item-number"
+                            type="range" min="0" step="0.01" max="0.99" value="0.5" id="shapeMix">
+                        <div class="facemix-labels">
+                            <span class="facemix-label-left" data-tkey="mother">Madre</span>
+                            <span class="facemix-label-right" data-tkey="father">Padre</span>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header">
+                            <p data-tkey="skin_mix">Mezcla de Piel</p>
+                        </div>
+                        <input data-type="skinMix" class="clothing-menu-option-item-slider slider item-number"
+                            type="range" min="0" step="0.01" max="0.99" value="0.5" id="skinMix">
+                        <div class="facemix-labels">
+                            <span class="facemix-label-left" data-tkey="mother">Madre</span>
+                            <span class="facemix-label-right" data-tkey="father">Padre</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="nose_0">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="nose_width">Ancho de la Nariz</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="width">Ancho</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="nose_1">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="nose_peak_height">Altura del Puente de la Nariz</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="height">Altura</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="nose_2">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="nose_peak_length">Longitud del Puente de la Nariz</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="length">Longitud</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="nose_3">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="nose_bone_height">Altura del Hueso de la Nariz</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="height">Altura</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="nose_4">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="nose_peak_lowering">Bajada del Puente de la Nariz</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="lowering">Bajada</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="nose_5">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="nose_bone_twist">Torsión del Hueso de la Nariz</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="twist">Torsión</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="eyebrown_high">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="eybrow_height">Altura de las Cejas</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="height">Altura</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="eyebrown_forward">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="eyebrow_depth">Profundidad de las Cejas</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="depth">Profundidad</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="cheek_1">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="cheeks_height">Altura de los Pómulos</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="height">Altura</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="cheek_2">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="cheeks_width">Ancho de los Pómulos</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="width">Ancho</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="cheek_3">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="cheeks_depth">Profundidad de los Pómulos</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="depth">Profundidad</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="eye_opening">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="eyes_opening">Apertura de Ojos</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="opening">Apertura</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="lips_thickness">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="lips_thickness">Grosor de Labios</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="thickness">Grosor</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="jaw_bone_width">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="jaw_bone_width">Ancho de Mandíbula</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="width">Ancho</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="jaw_bone_back_lenght">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="jaw_bone_length">Longitud de Mandíbula</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="length">Longitud</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="chimp_bone_lowering">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="chin_height">Altura del Hueso del Mentón</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="height">Altura</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="chimp_bone_lenght">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="chin_bone Length">Longitud del Hueso del Mentón</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="length">Longitud</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="chimp_bone_width">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="chin_bone_width">Ancho del Hueso del Mentón</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="width">Ancho</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="chimp_hole">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="butt_chin">Mentón Partido</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="size">Tamaño</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="neck_thikness">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="neck_thickness">Grosor del Cuello</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="thickness">Grosor</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clothing-menu-hair-container">
+                <div class="clothing-menu-option" data-type="eye_color">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="eye_color">Color de Ojos</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="color">Color</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="moles">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="moles">Lunares/Pecas</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="type">Tipo</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="texture-header">
+                            <p data-tkey="opacity">Opacidad</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="texture"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="texture" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="texture"><i
+                                class="fa-solid fa-angle-right"></i></div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="ageing">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="ageing">Envejecimiento</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="type">Tipo</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="texture-header">
+                            <p data-tkey="hair_color">Color de Cabello</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="texture"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="texture" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="texture"><i
+                                class="fa-solid fa-angle-right"></i></div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="hair">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="hair">Cabello</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="type">Tipo</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="texture-header">
+                            <p data-tkey="color">Color</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="texture"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="texture" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="texture"><i
+                                class="fa-solid fa-angle-right"></i></div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="eyebrows">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="eyebrow">Cejas</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="type">Tipo</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="texture-header">
+                            <p data-tkey="color">Color</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="texture"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="texture" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="texture"><i
+                                class="fa-solid fa-angle-right"></i></div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="beard">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="facial_hair">Vello Facial</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="type">Tipo</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="texture-header">
+                            <p data-tkey="color">Color</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="texture"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="texture" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="texture"><i
+                                class="fa-solid fa-angle-right"></i></div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="lipstick">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="lipstick">Lápiz Labial</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="type">Tipo</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="texture-header">
+                            <p data-tkey="color">Color</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="texture"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="texture" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="texture"><i
+                                class="fa-solid fa-angle-right"></i></div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="blush">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="blush">Colorete</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="type">Tipo</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="texture-header">
+                            <p data-tkey="color">Color</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="texture"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="texture" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="texture"><i
+                                class="fa-solid fa-angle-right"></i></div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="makeup">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="makeup">Maquillaje</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="type">Tipo</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="texture-header">
+                            <p data-tkey="color">Color</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="texture"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="texture" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="texture"><i
+                                class="fa-solid fa-angle-right"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clothing-menu-clothing-container">
+                <div class="clothing-menu-option" data-type="arms">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="arms">Brazos</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="type">Tipo</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="texture-header">
+                            <p data-tkey="texture">Textura</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="texture"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="texture" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="texture"><i
+                                class="fa-solid fa-angle-right"></i></div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="t-shirt">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="undershirt">Camisetas Interiores/Cinturones</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="item">Artículo</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="texture-header">
+                            <p data-tkey="color">Color</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="texture"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="texture" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="texture"><i
+                                class="fa-solid fa-angle-right"></i></div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="torso2">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="jacket">Chaquetas/Tops</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="item">Artículo</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="texture-header">
+                            <p data-tkey="color">Color</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="texture"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="texture" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="texture"><i
+                                class="fa-solid fa-angle-right"></i></div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="vest">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="vests">Chalecos</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="item">Artículo</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="texture-header">
+                            <p data-tkey="texture">Textura</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="texture"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="texture" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="texture"><i
+                                class="fa-solid fa-angle-right"></i></div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="decals">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="decals">Calcomanías</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="item">Artículo</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="texture-header">
+                            <p data-tkey="texture">Textura</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="texture"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="texture" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="texture"><i
+                                class="fa-solid fa-angle-right"></i></div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="accessory">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="acessory">Accesorios para el Cuello</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="item">Artículo</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="texture-header">
+                            <p data-tkey="texture">Textura</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="texture"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="texture" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="texture"><i
+                                class="fa-solid fa-angle-right"></i></div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="bag">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="bags">Bolsos</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="item">Artículo</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="texture-header">
+                            <p data-tkey="texture">Textura</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="texture"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="texture" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="texture"><i
+                                class="fa-solid fa-angle-right"></i></div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="pants">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="pants">Pantalones</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="item">Artículo</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="texture-header">
+                            <p data-tkey="texture">Textura</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="texture"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="texture" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="texture"><i
+                                class="fa-solid fa-angle-right"></i></div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="shoes">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="shoes">Zapatos</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="item">Artículo</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="texture-header">
+                            <p data-tkey="item">Textura</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="texture"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="texture" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="texture"><i
+                                class="fa-solid fa-angle-right"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clothing-menu-accessoires-container">
+                <div class="clothing-menu-option" data-type="mask">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="mask">Máscara</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="type">Tipo</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="texture-header">
+                            <p data-tkey="texture">Textura</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="texture"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="texture" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="texture"><i
+                                class="fa-solid fa-angle-right"></i></div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="hat">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="hat">Sombrero</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="type">Tipo</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="texture-header">
+                            <p data-tkey="texture">Textura</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="texture"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="texture" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="texture"><i
+                                class="fa-solid fa-angle-right"></i></div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="glass">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="glasses">Gafas</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="type">Tipo</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="texture-header">
+                            <p data-tkey="texture">Textura</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="texture"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="texture" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="texture"><i
+                                class="fa-solid fa-angle-right"></i></div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="ear">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="ear_acessories">Accesorios para la Oreja</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="type">Tipo</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="texture-header">
+                            <p data-tkey="texture">Textura</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="texture"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="texture" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="texture"><i
+                                class="fa-solid fa-angle-right"></i></div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="watch">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="watch">Reloj</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="type">Tipo</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="texture-header">
+                            <p data-tkey="texture">Textura</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="texture"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="texture" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="texture"><i
+                                class="fa-solid fa-angle-right"></i></div>
+                    </div>
+                </div>
+                <div class="clothing-menu-option" data-type="bracelet">
+                    <div class="clothing-menu-option-header">
+                        <p data-tkey="bracelet">Pulsera</p>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                            <p data-tkey="type">Tipo</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="item"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="item" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="item"><i
+                                class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option-item">
+                        <div class="clothing-menu-option-item-header" data-headertype="texture-header">
+                            <p data-tkey="texture">Textura</p>
+                        </div>
+                        <div class="clothing-menu-option-item-left" data-type="texture"><i
+                                class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <input type="number" data-type="texture" value="0">
+                        <div class="clothing-menu-option-item-right" data-type="texture"><i
+                                class="fa-solid fa-angle-right"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="clothing-menu-roomOutfits-container"></div>
+            <div class="clothing-menu-myOutfits-container"></div>
+            <div class="clothing-menu-option-buttons">
+                <div class="clothing-menu-option-button" id="save-menu">
+                    <i class="fa-solid fa-check"></i>
+                    <p data-tkey="btn_confirm">Confirmar</p>
+                </div>
+                <div class="clothing-menu-option-button" id="save-outfit">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    <p data-tkey="btn_saveOutfit">Guardar</p>
+                </div>
+                <div class="clothing-menu-option-button" id="cancel-menu">
+                    <i class="fa-solid fa-xmark"></i>
+                    <p data-tkey="btn_cancel">Cancelar</p>
+                </div>
+            </div>
+        </div>
+        <div class="clothing-menu-save-outfit-name">
+            <div class="clothing-menu-save-outfit-name-header">
+                <p id="outfit_name" data-tkey="outfit_name">NOMBRE DEL OUTFIT</p>
+                <div class="header-line"></div>
+            </div>
+
+            <input type="text" id="outfit-name" placeholder="Introduce el nombre del outfit que deseas guardar">
+
+            <div class="clothing-menu-save-outfit-name-buttons">
+                <div class="clothing-menu-save-outfit-name-button" id="save-outfit-save">
+                    <i class="fa-solid fa-check"></i>
+                    <p data-tkey="btn_confirm">ACEPTAR</p>
+                </div>
+                <div class="clothing-menu-save-outfit-name-button" id="cancel-outfit-save">
+                    <i class="fa-solid fa-xmark"></i>
+                    <p data-tkey="btn_cancel">CANCELAR</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./script.js"></script>
+    <div class="clothing-menu-model" style="display: none;"></div>
+</body>
+
+</html>
